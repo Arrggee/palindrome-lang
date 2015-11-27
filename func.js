@@ -17,6 +17,27 @@ let Language = {
 
     mapList(f, list) {
         return new InfiniteList(f, list);
+    },
+
+    filterList(f, list) {
+        return new FilteredList(f, list);
+    },
+
+    takeList(n, list) {
+        return list.take(n);
+    }
+}
+
+class Name {
+    constructor(f) {
+        this.val = null;
+        this.f = f
+    }
+    evaluate() {
+        if (this.val === null) {
+            this.val = f();
+        }
+        return this.val;
     }
 }
 
@@ -62,12 +83,12 @@ class InfiniteList {
 
     // Not lazy
     take(n) {
-        return new Array(n).fill().map((_, i) => () => this.get(i));
+        return new Array(n).fill().map((_, i) => this.get(i));
     }
 
     // Not lazy
     takeRange(min, max) {
-        return new Array(max - min).fill().map((_, i) => () => this.f(i + min));
+        return new Array(max - min).fill().map((_, i) => () => this.get(i + min));
     }
 }
 
@@ -99,30 +120,16 @@ function sleep(time) {
     var stop = new Date().getTime();
     while(new Date().getTime() < stop + time) {}
 }
+// name f = \i -> i * i
+var f = i => i * i;
+// each print take 5 map \i -> sqrt i filter \i -> i % 2 is 0 map f [..]
+// each(print, take(5, map(\i -> sqrt(i), filter(\i -> i % 2 is 0, map(f, [..])))))
+var ls1 = Language.takeList(5, Language.mapList(i => Math.sqrt(i), Language.filterList(i => i % 10 === 0, Language.mapList(f, new InfiniteList()))));
 
 var infLs = new InfiniteList();
-
-// infLs.f = Language.composeAll(
-//     i => i * i,
-//     i => {sleep(500); return i;}
-// );
-//
-// for (let k of infLs.iterRange(2, 8)) {
-//     console.log(k());
-// }
-// console.log(infLs.sparceArray)
-//
-// let ls2 = Language.mapList(i => {console.log("Evaluating map");return i}, infLs)
-
-var ls1 = Language.mapList(i => { sleep(500); return i }, infLs);
-
-var filtered = new FilteredList(i => i % 2 === 0, ls1);
-// for (let k of [0,1,2,3,4]) {
-//     console.log(filtered.get(k)());
-// }
-// console.log(filtered.get(5)());
-// console.log(filtered.get(2)());
-// console.log(filtered.get(10)());
-
-var thenMap = Language.mapList(i => i * i, filtered);
-console.log(thenMap.get(3))
+var squared = Language.mapList(i => i * i, infLs);
+var filtered = Language.filterList(i => i % 10 === 0, squared);
+var rooted = Language.mapList(i => Math.sqrt(i), filtered);
+var ls = rooted.take(5);
+console.log(ls.map(x => x()));
+console.log(ls1.map(x => x()));
