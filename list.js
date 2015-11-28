@@ -76,18 +76,6 @@ class FilteredList extends InfiniteList {
     }
 }
 
-// TODO: InductiveList
-class InductiveList {
-    constructor(f, baseCase) {
-        this.f = f;
-        this.sparceArray = baseCase;
-    }
-
-    get(i) {
-        // Coming soon...
-    }
-}
-
 
 var List = {
     InfiniteList: InfiniteList,
@@ -95,5 +83,3 @@ var List = {
 };
 
 module.exports = List;
-// module.exports.InfiniteList = InfiniteList;
-// module.exports.FilteredList = FilteredList;

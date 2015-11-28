@@ -2,9 +2,8 @@
 // Feel free to write proper tests.
 // I'd rather have a parser than unit test though.
 
-
 var Lang = require('./func');
-var List = require('./List');
+var List = require('./list');
 
 /**
  * Synchronously block execution for a given amount of time.
