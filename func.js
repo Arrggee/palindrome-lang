@@ -1,5 +1,5 @@
 'use strict';
-var list = require('./list');
+var List = require('./list');
 
 let Language = {
     compose(f, g) {
@@ -17,11 +17,11 @@ let Language = {
     },
 
     mapList(f, list) {
-        return new list.InfiniteList(f, list);
+        return new List.InfiniteList(f, list);
     },
 
     filterList(f, list) {
-        return new list.FilteredList(f, list);
+        return new List.FilteredList(f, list);
     },
 
     takeList(n, list) {
@@ -43,21 +43,3 @@ class Name {
 }
 
 module.exports = Language;
-
-function sleep(time) {
-    var stop = new Date().getTime();
-    while(new Date().getTime() < stop + time) {}
-}
-// name f = \i -> i * i
-// var f = i => i * i;
-// // each print take 5 map \i -> sqrt i filter \i -> i % 2 is 0 map f [..]
-// // each(print, take(5, map(\i -> sqrt(i), filter(\i -> i % 2 is 0, map(f, [..])))))
-// var ls1 = Language.takeList(5, Language.mapList(i => Math.sqrt(i), Language.filterList(i => i % 10 === 0, Language.mapList(f, new InfiniteList()))));
-//
-// var infLs = new InfiniteList();
-// var squared = Language.mapList(i => i * i, infLs);
-// var filtered = Language.filterList(i => i % 10 === 0, squared);
-// var rooted = Language.mapList(i => Math.sqrt(i), filtered);
-// var ls = rooted.take(5);
-// console.log(ls.map(x => x()));
-// console.log(ls1.map(x => x()));

@@ -73,5 +73,25 @@ class FilteredList extends InfiniteList {
     }
 }
 
-module.exports.InfiniteList = InfiniteList;
-module.exports.FilteredList = FilteredList;
+// TODO: InductiveList
+class InductiveList {
+    constructor() {
+
+    }
+
+    get(i) {
+        
+    }
+}
+
+
+var List = {
+    InfiniteList: InfiniteList,
+    FilteredList: FilteredList
+};
+
+console.log(new List.InfiniteList(i => i*i));
+
+module.exports = List;
+// module.exports.InfiniteList = InfiniteList;
+// module.exports.FilteredList = FilteredList;
