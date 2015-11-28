@@ -38,3 +38,7 @@ var rooted = Lang.mapList(i => Math.sqrt(i), filtered);
 var ls = rooted.take(5);
 console.log(ls.map(x => x()));
 console.log(ls1.map(x => x()));
+
+var fFib = function(i) { return this.get(i-1)() + this.get(i-2)(); };
+var fib = new List.InfiniteList(fFib, undefined, {0: 0, 1: 1});
+console.log(Lang.takeList(10, fib).map(x => x()));

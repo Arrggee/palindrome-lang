@@ -1,10 +1,13 @@
 'use strict';
 
 class InfiniteList {
-    constructor(f, subList) {
-        this.f = f !== undefined ? f : i => i;
-        this.sparceArray = {};
+    constructor(f, subList, baseCase) {
+        this.f = f !== undefined ? f.bind(this) : i => i;
         this.subList = subList !== undefined ? subList : {get: i => () => i};
+        this.sparceArray = {};
+        for (let key in baseCase) {
+            this.sparceArray[key] = () => baseCase[key];
+        }
     }
 
     get(i) {
@@ -75,12 +78,13 @@ class FilteredList extends InfiniteList {
 
 // TODO: InductiveList
 class InductiveList {
-    constructor() {
-
+    constructor(f, baseCase) {
+        this.f = f;
+        this.sparceArray = baseCase;
     }
 
     get(i) {
-        
+        // Coming soon...
     }
 }
 
@@ -89,8 +93,6 @@ var List = {
     InfiniteList: InfiniteList,
     FilteredList: FilteredList
 };
-
-console.log(new List.InfiniteList(i => i*i));
 
 module.exports = List;
 // module.exports.InfiniteList = InfiniteList;
